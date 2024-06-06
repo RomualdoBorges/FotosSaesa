@@ -1,64 +1,36 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 const ImageUploadForm = () => {
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [previews, setPreviews] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [preview, setPreview] = useState(null);
   const [uploadStatus, setUploadStatus] = useState("");
 
   const handleFileChange = (event) => {
-    const files = Array.from(event.target.files).slice(0, 3);
-    setSelectedFiles(files);
+    const file = event.target.files[0];
+    setSelectedFile(file);
 
-    const filePreviews = files.map((file) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      return new Promise((resolve) => {
-        reader.onloadend = () => {
-          resolve(reader.result);
-        };
-      });
-    });
-
-    Promise.all(filePreviews).then((previews) => {
-      setPreviews(previews);
-    });
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreview(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (selectedFiles.length === 0) {
-      alert("Por favor, selecione até três arquivos para fazer upload.");
-      return;
-    }
-
-    const formData = new FormData();
-    selectedFiles.forEach((file) => {
-      formData.append("images", file);
-    });
-
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      setUploadStatus("Upload realizado com sucesso");
-      console.log("Arquivos enviados:", response.data);
-    } catch (error) {
-      setUploadStatus("Falha no upload");
-      console.error("Erro no upload:", error);
-    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      {/* Input para ordem de servico */}
       <div>
-        <label htmlFor="fileInput">Selecione até três imagens:</label>
+        <label htmlFor="osNumber">Informe o número da Ordem de Serviço:</label>
+        <input type="text" id="osNumber" />
+      </div>
+
+      {/* Input para imagens */}
+      <div>
+        <label htmlFor="fileInput">Selecione uma imagem:</label>
         <input
           type="file"
           id="fileInput"
@@ -67,19 +39,16 @@ const ImageUploadForm = () => {
           onChange={handleFileChange}
         />
       </div>
-      {previews.length > 0 && (
+
+      {/* Pre-visualizacao da imagem */}
+      {preview && (
         <div>
-          <p>Pré-visualizações:</p>
-          {previews.map((preview, index) => (
-            <img
-              key={index}
-              src={preview}
-              alt={`Preview ${index + 1}`}
-              width="200"
-            />
-          ))}
+          <p>Pré-visualização:</p>
+          <img src={preview} alt="Preview" width="200" />
         </div>
       )}
+
+      {/* Botao de submit */}
       <button type="submit">Fazer Upload</button>
       {uploadStatus && <p>{uploadStatus}</p>}
     </form>
