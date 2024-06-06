@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./App.module.css";
+import logo2 from "../public/logo2.png";
 
 function App() {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -23,14 +24,6 @@ function App() {
     Promise.all(filePreviews).then((previews) => {
       setPreviews(previews);
     });
-    // const file = event.target.files[0];
-    // setSelectedFile(file);
-
-    // const reader = new FileReader();
-    // reader.onloadend = () => {
-    //   setPreview(reader.result);
-    // };
-    // reader.readAsDataURL(file);
   };
 
   const handleSubmit = async (event) => {
@@ -40,6 +33,8 @@ function App() {
 
   return (
     <div className={styles.container}>
+      <img src={logo2} alt="Logo2" />
+
       <form onSubmit={handleSubmit}>
         {/* Input para ordem de servico */}
         <div className={styles.inputGroup}>

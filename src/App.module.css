@@ -9,6 +9,13 @@ body {
   padding: 20px;
 }
 
+.container img {
+  width: 200px;
+  height: auto;
+  display: block;
+  margin: 0 auto 20px;
+}
+
 .inputGroup {
   margin-bottom: 20px;
 }
