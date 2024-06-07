@@ -31,6 +31,17 @@ body {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  margin-top: 5px;
+}
+
+.inputError {
+  border: 1px solid red;
+}
+
+.errorParagraph {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .fileInput {

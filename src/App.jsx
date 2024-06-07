@@ -5,7 +5,9 @@ import logo2 from "../public/logo2.png";
 function App() {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
-  const [uploadStatus, setUploadStatus] = useState("");
+  const [osNumber, setOsNumber] = useState("");
+  const [validOs, setValidOs] = useState(false);
+  const [validImg, setValidImg] = useState(false);
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files).slice(0, 3);
@@ -28,12 +30,41 @@ function App() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("teste");
+
+    const formData = {
+      osNumber: osNumber,
+      images: selectedFiles,
+    };
+
+    const isValid = osNumber.length > 0 && selectedFiles.length === 3;
+
+    if (!isValid) {
+      if (osNumber.length === 0) {
+        setValidOs(true);
+      } else {
+        setValidOs(false);
+      }
+
+      if (selectedFiles.length !== 3) {
+        setValidImg(true);
+      } else {
+        setValidImg(false);
+      }
+
+      return;
+    }
+
+    // Se as duas condições forem válidas, envia o formulário
+    console.log(formData);
+
+    setValidImg(false);
+    setValidOs(false);
   };
 
   return (
     <div className={styles.container}>
-      <img src={logo2} alt="Logo2" />
+      {/* Logo */}
+      <img src={logo2} alt="Logo" />
 
       <form onSubmit={handleSubmit}>
         {/* Input para ordem de servico */}
@@ -41,7 +72,20 @@ function App() {
           <label className={styles.label} htmlFor="osNumber">
             Informe o número da Ordem de Serviço:
           </label>
-          <input className={styles.inputField} type="text" id="osNumber" />
+          <input
+            className={`${styles.inputField} ${
+              validOs ? styles.inputError : ""
+            }`}
+            type="text"
+            id="osNumber"
+            value={osNumber}
+            onChange={(event) => setOsNumber(event.target.value)}
+          />
+          {validOs && (
+            <p className={styles.errorParagraph}>
+              *Favor informar o número da Ordem de Serviço.
+            </p>
+          )}
         </div>
 
         {/* Input para imagens */}
@@ -49,6 +93,11 @@ function App() {
           <label className={styles.fileLabel} htmlFor="fileInput">
             Adicionar Fotos
           </label>
+          {validImg && (
+            <p className={styles.errorParagraph}>
+              *Favor informar adicionar as três fotos.
+            </p>
+          )}
           <input
             className={styles.fileInput}
             type="file"
@@ -78,7 +127,6 @@ function App() {
         <button className={styles.submitButton} type="submit">
           Fazer Upload
         </button>
-        {uploadStatus && <p className={styles.statusMessage}>{uploadStatus}</p>}
       </form>
     </div>
   );
