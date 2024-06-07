@@ -7,6 +7,7 @@ const InputFile = ({ id, label, validImg, onChange }) => {
       <label className={styles.fileLabel} htmlFor={id}>
         {label}
       </label>
+      <p className={styles.paragraph}>*Adiciona as 3 fotos ao mesmo tempo.</p>
       {validImg && (
         <p className={styles.errorParagraph}>
           *Favor informar adicionar as três fotos.

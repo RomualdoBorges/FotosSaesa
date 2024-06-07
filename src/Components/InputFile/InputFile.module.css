@@ -5,7 +5,7 @@
 .fileLabel {
   display: inline-block;
   padding: 10px 15px;
-  background-color: #007bff;
+  background-color: #6abeec;
   color: #fff;
   border-radius: 5px;
   cursor: pointer;
@@ -14,6 +14,11 @@
 .errorParagraph {
   color: red;
   font-size: 14px;
+  margin-top: 5px;
+}
+
+.paragraph {
+  font-size: 12px;
   margin-top: 5px;
 }
 
