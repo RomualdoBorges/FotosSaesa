@@ -1,0 +1,13 @@
+.previewContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.previewImg {
+  width: calc(33.33% - 10px);
+  height: auto;
+  margin: 5px;
+  border-radius: 5px;
+  object-fit: cover;
+}
