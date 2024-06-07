@@ -1,13 +1,22 @@
 import React, { useState } from "react";
 import styles from "./App.module.css";
-import logo2 from "../public/logo2.png";
+import logo from "./assets/logo.png";
+import Message from "./Components/Message";
 
 function App() {
-  const [selectedFiles, setSelectedFiles] = useState([]);
+  //Estado da pre-visualizacao
   const [previews, setPreviews] = useState([]);
+
+  //Estados do Formulario
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const [osNumber, setOsNumber] = useState("");
+
+  //Estados de Validacao
   const [validOs, setValidOs] = useState(false);
   const [validImg, setValidImg] = useState(false);
+
+  //Estados de Mensagem
+  const [sendMessage, setSendMessage] = useState(false);
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files).slice(0, 3);
@@ -57,14 +66,27 @@ function App() {
     // Se as duas condições forem válidas, envia o formulário
     console.log(formData);
 
+    // Limpeza dos campos ao enviar o formulário
     setValidImg(false);
     setValidOs(false);
+    setOsNumber("");
+    setSelectedFiles([]);
+    setPreviews([]);
+
+    // Mensagem enviada. Fazer tratamento para erro quando tiver uma API
+    setSendMessage(true);
+
+    setTimeout(() => {
+      setSendMessage(false);
+      //Substituir esse reload por algum componente de loading
+      window.location.reload();
+    }, 5000);
   };
 
   return (
     <div className={styles.container}>
       {/* Logo */}
-      <img src={logo2} alt="Logo" />
+      <img src={logo} alt="Logo" />
 
       <form onSubmit={handleSubmit}>
         {/* Input para ordem de servico */}
@@ -128,6 +150,8 @@ function App() {
           Fazer Upload
         </button>
       </form>
+
+      {sendMessage && <Message />}
     </div>
   );
 }
