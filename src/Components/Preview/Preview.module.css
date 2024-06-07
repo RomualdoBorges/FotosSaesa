@@ -6,8 +6,21 @@
 
 .previewImg {
   width: calc(33.33% - 10px);
-  height: auto;
   margin: 5px;
   border-radius: 5px;
+  height: auto;
   object-fit: cover;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .previewImg {
+    flex: 0 1 calc(50% - 10px);
+  }
+}
+
+@media (max-width: 480px) {
+  .previewImg {
+    flex: 0 1 100%;
+  }
 }
